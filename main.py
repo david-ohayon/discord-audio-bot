@@ -6,14 +6,16 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 # python modules
+from dotenv import load_dotenv, find_dotenv
 from time import sleep
 from sys import argv
-from os import system
+import os
 
-system(f'caffeinate -t {int(argv[1]) * 3600}')
+load_dotenv(find_dotenv())
+os.system(f'caffeinate -t {int(argv[1]) * 3600}')
 
 options = Options()
-options.add_argument("--use-fake-ui-for-media-stream")
+options.add_argument('--use-fake-ui-for-media-stream')
 driver = webdriver.Chrome(options=options)
 driver.get('https://discord.com/login')
 
@@ -23,8 +25,8 @@ password = form.find_element(By.NAME, 'password')
 
 sleep(.5)
 
-user.send_keys("davideytanohayon@gmail.com")
-password.send_keys("Cuvdyk-kerro6-gakcam")
+user.send_keys(os.getenv('EMAIL'))
+password.send_keys(os.getenv('PASSWORD'))
 form.submit()
 
 servers = WebDriverWait(driver, 15).until(
@@ -38,7 +40,7 @@ sleep(1)
 
 servers.find_element(By.CSS_SELECTOR, '[aria-label="  Ｖ１"]').click()
 
-chats = driver.find_element(By.CSS_SELECTOR, ".sidebar-2K8pFh")
+chats = driver.find_element(By.CSS_SELECTOR, '.sidebar-2K8pFh')
 
 for _ in range(int(argv[1])):
     sleep(.2)
